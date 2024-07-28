@@ -23,19 +23,33 @@ def main():
             age = getAgeFromUser()
             ageSumOfWomen = ageSumOfWomen + age
 
-        continueToEnterData = input(
-            "Vill du fortsätta mata in data? Skriv stop för att avsluta eller tryck enter för att fortsätta: "
-        ).upper()
+        continueToEnterData = (
+            input(
+                "Vill du fortsätta mata in data? Skriv stop och klicka enter för att avsluta eller bara enter för att fortsätta: "
+            )
+            .upper()
+            .strip()
+        )
         if continueToEnterData == "STOP":
             isEnteringData = False
         else:
             isEnteringData = True
 
-    print(
-        f"Medelåldern för män är: {int(ageSumOfMen/numberOfMen)} \nMedelåldern för kvinnor är: {int(ageSumOfWomen/numberOfWomen)}"
-    )
+    if numberOfMen == 0:
+        print(
+            f"Medelåldern för kvinnor är {int(ageSumOfWomen/numberOfWomen)} år. \nDet saknas uppgifter om män."
+        )
+    elif numberOfWomen == 0:
+        print(
+            f"Medelåldern för män är {int(ageSumOfMen/numberOfMen)} år. \nDet saknas uppgifter om kvinnor."
+        )
+    else:
+        print(
+            f"Medelåldern för män är {int(ageSumOfMen/numberOfMen)} \nMedelåldern för kvinnor är: {int(ageSumOfWomen/numberOfWomen)}"
+        )
 
 
+# Hämtar könsgruppen från användaren och anropar validering
 def getGenderStringFromUser():
     isValidString = False
     while isValidString is False:
@@ -49,6 +63,7 @@ def getGenderStringFromUser():
             return category
 
 
+# Kollar att användaren angett rätt typ av könsgrupp
 def validateGenderString(genderString):
     if genderString == "M" or genderString == "K":
         return True
@@ -64,23 +79,25 @@ def validateGenderString(genderString):
         return False
 
 
+# Hämtar åldern från användaren och anropar validering
 def getAgeFromUser():
     isValidAge = False
     while isValidAge is False:
         age = input(
             "Hur många år är personen? Skriv åldern i heltal och klicka på enter: "
         )
-        validAge = convertAgeStringToInt(age)
-        if validAge is not None:
+        validAgeAsInt = convertAgeStringToInt(age)
+        if validAgeAsInt is not None:
             isValidAge = True
-            return validAge
+            return validAgeAsInt
 
 
+# Försöker konvertera åldern från sträng till heltal
 def convertAgeStringToInt(age):
     try:
         return int(age)
     except ValueError:
-        print("Felaktig ålder angiven. Försök igen. Obs! Skriv bara in heltal")
+        print("Inkorrekt ålder angiven. Försök igen. Obs! Skriv bara in heltal")
         return None
 
 
