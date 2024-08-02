@@ -94,10 +94,16 @@ def getAgeFromUser():
 
 # Försöker konvertera åldern från sträng till heltal
 def convertAgeStringToInt(age):
+    if age == "":
+        print("Du måste ange en ålder. Försök igen.")
+        return None
     try:
         return int(age)
     except ValueError:
         print("Inkorrekt ålder angiven. Försök igen. Obs! Skriv bara in heltal")
+        return None
+    except:
+        print("Något gick fel. Försök igen.")
         return None
 
 
